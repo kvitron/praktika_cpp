@@ -1,0 +1,18 @@
+/*Считать строку символов char. Обойти строку при помощи указателей и
+преобразовать большие буквы в маленькие, а маленькие в большие. Остальные
+символы оставить без изменения.*/
+//#include<iostream>
+#include<fstream>
+using namespace std;
+int main(){
+	char* s = new char[6]; //выделяется памяти на 6 элементов
+	ifstream fin("in.txt");
+	ofstream fout("out.txt");
+	fin.get(s, 5); //считывает 4 символа, т.к. пятый - ноль
+	while (*s!=0){
+		if(*s>='A'&&*s<='Z') *s=*s-32;
+		else if(*s>=97&&*s<=122) *s-=32;
+		fout<<*s<<endl;
+		s++;
+	}
+return 0;}
