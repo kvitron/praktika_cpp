@@ -146,6 +146,7 @@ int findrightindex(char *source, int index){//поиск правого индекса числа
 	return index - 1;
 }
 char *math(char *s, const char *operation, int znak){
+	/*выполняет математическую операцию со строкой*/
 	int lgran, rgran; //индексы левой и правой границ левого и правого числа
 	float leftnumber, rightnumber, result; //сами числа
 	//находим левое число
@@ -173,28 +174,102 @@ char *math(char *s, const char *operation, int znak){
 int main() {
 	char* s = new char[1000];
 	cin.get(s, 999);
-	bool the_end = true;
-	int znak; //индекс элемента знака операции
-	//решаем все умножения
-	while ((znak = find(s, "*")) != -1){
-		s = math(s, "*", znak);
+	int nummult, numdiv, numsum, numdiff; //индекс элемента знака операции
+	bool multexist, divexist, sumexist, diffexist; // флаги существования операций в строке
+	
+	//проверяем на существование * и /
+	if ((nummult = find(s, "*")) != -1) {
+		multexist = true;
+	}
+	else {
+		multexist = false;
+	}
+	if ((numdiv = find(s, "/")) != -1) {
+		divexist = true;
+	}
+	else {
+		divexist = false;
+	}
+	//решаем все умножения и деления
+	while (multexist || divexist){ //если есть умножение или деление
+		if (numdiv == -1) { //только умножение
+			s = math(s, "*", nummult);
+		}
+		else if (nummult == -1) { //только деление
+			s = math(s, "/", numdiv);
+		}
+		else{ //есть и то, и то
+			if (nummult < numdiv) {
+				s = math(s, "*", nummult);
+			}
+			else {
+				s = math(s, "/", numdiv);
+			}
+		}
+		//проверяем на существование * и /
+		if ((nummult = find(s, "*")) != -1) {
+			multexist = true;
+		}
+		else {
+			multexist = false;
+		}
+		if ((numdiv = find(s, "/")) != -1) {
+			divexist = true;
+		}
+		else {
+			divexist = false;
+		}
 		cout << s << endl;
 	}
-	//решаем все деления
-	while ((znak = find(s, "/")) != -1){
-		s = math(s, "/", znak);
+	
+	//проверяем на существование + и -
+	if ((numsum = find(s, "+")) != -1) {
+		sumexist = true;
+	}
+	else {
+		sumexist = false;
+	}
+	if ((numdiff = find(s, "-")) != -1) {
+		diffexist = true;
+	}
+	else {
+		diffexist = false;
+	}
+	//решаем все сложения и вычитания
+	while (sumexist || diffexist){ //если есть сложение или вычитание
+		if (numdiff == -1) { //только сложение
+			s = math(s, "+", numsum);
+		}
+		else if (numsum == -1) { //только вычитание
+			s = math(s, "-", numdiff);
+		}
+		else{ //есть и то, и то
+			if (numsum < numdiff) {
+				s = math(s, "+", numsum);
+			}
+			else {
+				s = math(s, "-", numdiff);
+			}
+		}
+		
+		//проверяем на существование + и -
+		if ((numsum = find(s, "+")) != -1) {
+			sumexist = true;
+		}
+		else {
+			sumexist = false;
+		}
+		if ((numdiff = find(s, "-")) != -1) {
+			diffexist = true;
+		}
+		else {
+			diffexist = false;
+		}
 		cout << s << endl;
 	}
-	//решаем все сложения
-	while ((znak = find(s, "+")) != -1){
-		s = math(s, "+", znak);
-		cout << s << endl;
-	}
-	//решаем все вычитания
-	while ((znak = find(s, "-")) != -1){
-		s = math(s, "-", znak);
-		cout << s << endl;
-	}
+	
 	delete[] s;
 	return 0;
 }
+//следующая строка не работает при нахождении индекса деления
+//while (((nummult = find(s, "*")) != -1) || ((numdiv = find(s, "/")) != -1)){
