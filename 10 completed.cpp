@@ -6,7 +6,6 @@
 »спользу€ стек, вычислите значение выражени€.*/
 //#include "pch.h"
 #include <iostream>
-#include <string>
 #include <cstdlib>
 using namespace std;
 class ListElement {
