@@ -14,7 +14,7 @@ public:
 	}
 	_String(char *val) { //из массива char
 		int i = 0;
-		while (val[i]!=0){ //считаем длину
+		while (val[i] != 0) { //считаем длину
 			i++;
 		}
 		char *str = new char[i + 1];
@@ -29,7 +29,7 @@ public:
 	}
 	_String(const char *val) { //из константной строки
 		int i = 0;
-		while (val[i]!=0){ //считаем длину
+		while (val[i] != 0) { //считаем длину
 			i++;
 		}
 		char *str = new char[i + 1];
@@ -65,7 +65,7 @@ public:
 	}
 	void append(_String str) { //добавляем объект _String
 		int i = 0;
-		while (str.value[i] != 0){ //считаем длину
+		while (str.value[i] != 0) { //считаем длину
 			i++;
 		}
 		char *tempstr = new char[stringLength + i + 1];
@@ -86,7 +86,7 @@ public:
 	}
 	void append(char *str) { //добавляем массив char
 		int i = 0;
-		while (str[i] != 0){ //считаем длину
+		while (str[i] != 0) { //считаем длину
 			i++;
 		}
 		char *tempstr = new char[stringLength + i + 1];
@@ -105,9 +105,22 @@ public:
 		stringLength += i;
 		value = tempstr;
 	}
+	void append(char symbol) { //добавляем символ char
+		int i = 0;
+		char *tempstr = new char[stringLength + 1];
+		while (value[i] != 0) { //копируем старую строку
+			tempstr[i] = value[i];
+			i++;
+		}
+		delete[] value;
+		tempstr[i] = symbol;
+		tempstr[i + 1] = 0;
+		stringLength += i + 1;
+		value = tempstr;
+	}
 	void append(const char *str) { //добавляем константную строку
 		int i = 0;
-		while (str[i] != 0){ //считаем длину
+		while (str[i] != 0) { //считаем длину
 			i++;
 		}
 		char *tempstr = new char[stringLength + i + 1];
@@ -128,7 +141,7 @@ public:
 	}
 	void setValue(char *val) { //установить значение массива char
 		int i = 0;
-		while (val[i]!=0){ //считаем длину
+		while (val[i] != 0) { //считаем длину
 			i++;
 		}
 		char *tempstr = new char[i + 1];
@@ -144,7 +157,7 @@ public:
 	}
 	void setValue(const char *val) { //установить константное значение
 		int i = 0;
-		while (val[i]!=0){ //считаем длину
+		while (val[i] != 0) { //считаем длину
 			i++;
 		}
 		char *tempstr = new char[i + 1];
@@ -195,21 +208,118 @@ public:
 	_String operator = (const _String &element) {
 	}
 	_String operator + (const _String &right) {
+		_String *newstring = new _String;
+		
 	}
 	int pos(const char *str) { //первое вхождение подстроки///////////////////////////////////////
+		/*int i = 0; j = 0;
+		for (i = 0; i < stringLength; i++) { //проход по исходной строке
+			
+		}*/
 	}
-	void remove(int position, int length) { //вырезать подстроку из строки////////////////////////////////////
+	void remove(int position, int length) { //удалить подстроку из строки
+		if (position < 0 || position >= stringLength) {
+			cout << "Error in _String.remove(): position error" << endl;
+		}
+		else if (length > stringLength) {
+			cout << "Error in _String.remove(): length error" << endl;
+		}
+		else if (position + length > stringLength) {
+			cout << "Error in _String.remove(): position + length > old length" << endl;
+		}
+		else {
+			char *str = new char[stringLength - length];
+			for (int i = 0; i < position; i++){ //копируем до выреза
+				str[i] = value[i];
+			}
+			for (int i = position + length; i < stringLength; i++) { //копируем остальное
+				str[i - length] = value[i];
+			}
+			str[stringLength - length] = 0;
+			delete[] value;
+			value = str;
+			stringLength -= length;
+		}
 	}
-	void insert(int position, int length, const char *source) {
+	void insert(int position, const char *source) { //вставка константной подстроки в исходную строку
+		int length = 0, i = 0, j = 0;
+		while (source[length] != 0) { //подсчет длины вставляемой строки
+			length++;
+		}
+		char *str = new char[stringLength + length];
+		while (i < position) { //копируем до вставки
+			str[i] = value[i];
+			i++;
+		}
+		while (source[j] != 0) { //копируем вставляемые
+			str[i] = source[j];
+			i++;
+			j++;
+		}
+		j = position;
+		while (value[j] != 0) {//копируем оставшиеся элементы
+			str[i] = value[j];
+			i++;
+			j++;
+		}
+		str[i] = 0;
+		delete[] value;
+		value = str;
+		stringLength += length;
 	}
-	void insert(int position, int length, char *source) {
+	void insert(int position, char *source) { //вставка подстроки в исходную строку
+		int length = 0, i = 0, j = 0;
+		while (source[length] != 0) { //подсчет длины вставляемой строки
+			length++;
+		}
+		char *str = new char[stringLength + length];
+		while (i < position) { //копируем до вставки
+			str[i] = value[i];
+			i++;
+		}
+		while (source[j] != 0) { //копируем вставляемые
+			str[i] = source[j];
+			i++;
+			j++;
+		}
+		j = position;
+		while (value[j] != 0) {//копируем оставшиеся элементы
+			str[i] = value[j];
+			i++;
+			j++;
+		}
+		str[i] = 0;
+		delete[] value;
+		value = str;
+		stringLength += length;
 	}
-	void insert(int position, int length, _String source) {
+	void insert(int position, _String source) { //вставка подстроки из другого объекта _String в строку
+		int i = 0, j = 0;
+		char *str = new char[stringLength + source.stringLength];
+		while (i < position) { //копируем до вставки
+			str[i] = value[i];
+			i++;
+		}
+		while (source.value[j] != 0) { //копируем вставляемые
+			str[i] = source.value[j];
+			i++;
+			j++;
+		}
+		j = position;
+		while (value[j] != 0) {//копируем оставшиеся элементы
+			str[i] = value[j];
+			i++;
+			j++;
+		}
+		str[i] = 0;
+		delete[] value;
+		value = str;
+		stringLength += source.stringLength;
 	}
 	_String copy(int position, int length) { //возвращает динмическую подстроку
 		char *str = new char[length + 1];
 		int i, j; //позиции в исходной и новой строке
-		for (i = position, j = 0; j < length; i++, j++){ //копируем
+		for (i = position, j = 0; j < length; i++, j++) { //копируем
 			str[j] = value[i];
 		}
 		str[j] = 0;
@@ -218,24 +328,62 @@ public:
 		newstring.value = str;
 		return newstring;
 	}
-	char operator [] (int index) {
+	char operator [] (int index) { //возвращает символ с индексом index
+		return value[index];
 	}
-	int parseInt(int &error) { //конвертация в int ////////////////////////////////////////не понятен аргумент ф-ции
+	int parseInt(int &error) { //конвертация в int. error вернет индекс первого символа не числа. иначе -1
+		int i = 1;
+		if (value[0] != '+' && value[0] != '-' && (value[i] < '0' || value[i] > '9')) { //не +, не -, не цифра
+			error = 0;
+			return 0;
+		}
+		while (value[i] != 0) {
+			if (value[i] < '0' || value[i] > '9') { //если символ не является цифрой
+				error = i;
+				return 0;
+			}
+			char c = value[i];
+			i++;
+		}
+		error = -1;
 		return atoi(value);
 	}
-	float parseFloat(int &error) { //конвертация во float//////////////////////////////////не понятен аргумент ф-ции
+	float parseFloat(int &error) { //конвертация во float. error вернет индекс первого символа не числа. иначе -1
+		if (value[0] == '+' || value[0] == '-') { //если за знаком сразу идет точка
+			if(value[1] == '.') {
+				error = 1;
+				return 0;
+			}
+		}
+		if (value[0] != '+' && value[0] != '-' && (value[0] < '0' || value[0] > '9')) { //не +, не -, не цифра
+			error = 0;
+			return 0;
+		}
+		int i = 1;
+		bool dot = false; //встречалась ли разделительная точка
+		while (value[i] != 0) {
+			if (value[i] == '.' && dot == false) { //если это первый раз встретившаяся точка
+				dot = true;
+			}
+			else if (value[i] < '0' || value[i] > '9') { //если символ не является цифрой
+				error = i;
+				return 0;
+			}
+			i++;
+		}
+		error = -1;
 		return atof(value);
 	}
 	bool isEqual(char *str) { //сравнение со строкой на одинаковость
 		int i = 0;
 		bool f = true;
 		while (value[i] != 0) {
-			if (value[i] != str[i]){
+			if (value[i] != str[i]) {
 				return false;
 			}
 			i++;
 		}
-		if (str[i] != 0){ // если в str больше элементов, чем в value
+		if (str[i] != 0) { // если в str больше элементов, чем в value
 			return false;
 		}
 		return true;
@@ -244,20 +392,24 @@ public:
 		int i = 0;
 		bool f = true;
 		while (value[i] != 0) {
-			if (value[i] != str[i]){
+			if (value[i] != str[i]) {
 				return false;
 			}
 			i++;
 		}
-		if (str[i] != 0){ // если в str больше элементов, чем в value
+		if (str[i] != 0) { // если в str больше элементов, чем в value
 			return false;
 		}
 		return true;
 	}
 };
 int main() {
-	_String s6("1663");
-	_String s7 = s6.copy(0,3);
-	cout << s7.value <<endl;
+	_String s("qwerty");
+	//_String s1("asd");
+	//char *str = new char[10];
+	//cin.get(str, 9);
+	//s.insert(3, s1);
+	s.append(s[1]);
+	cout << s.value << endl;
 	return 0;
 }
