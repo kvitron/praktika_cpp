@@ -506,6 +506,9 @@ public:
 		}
 		return true;
 	}
+	const char getValue(){ //возвращает значение строку
+		return value;
+	}
 };
 int main() {
 	_String s("aadfadaf");
