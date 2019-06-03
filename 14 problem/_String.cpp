@@ -2,14 +2,16 @@
 
 //конструктор по умолчанию
 _String::_String() {
+	cout << "FILE: _String. default constructor" << endl;////////////////////////
 	value = new char[1];
 	value[0] = 0;
 	stringLength = 0;
 	//_String::objectCount++;
 }
 
-//конструктор из массива char
+//конструктор из динамического массива char
 _String::_String(char *val) {
+	cout << "FILE: _String. constructor from char massive" << endl;////////////////////////
 	int i = 0;
 	while (val[i] != 0) { //считаем длину
 		i++;
@@ -27,6 +29,7 @@ _String::_String(char *val) {
 
 //из константной строки
 _String::_String(const char *val) {
+	cout << "FILE: _String. constructor from const char massive" << endl;////////////////////////
 	int i = 0;
 	while (val[i] != 0) { //считаем длину
 		i++;
@@ -42,15 +45,21 @@ _String::_String(const char *val) {
 	stringLength = i;
 }
 
+//конструктор из символа char
+_String::_String(char symbol) {
+
+}
+
 //деструктор
-_String::~_String() { 
+_String::~_String() {
+	cout << "FILE: _String. destructor" << endl;////////////////////////
 	delete[] value;
 }
 
 //из другого объекта _Srting
 _String::_String(const _String &element) {
+	cout << "FILE: _String. constructor from _String" << endl;////////////////////////
 	int i = 0;
-	cout << "4 test "<< endl;
 	value = new char[element.stringLength + 1];
 	while (element.value[i] != 0) { //копируем
 		value[i] = element.value[i];
@@ -289,42 +298,17 @@ void _String::setValue(double val, int precision) {
 }
 
 //возвращает дублированный объект _String исходного объекта
-_String _String::operator = (const _String &element) { 
-	char *str = new char[element.stringLength + 1];
-	int i = 0;
-	while (element.value[i] != 0) { //копируем строку
-		str[i] = element.value[i];
-		i++;
-	}
-	str[i] = 0;
-	
-	cout << "123 show elemnt.value" << element.value << endl;
-	
-	_String *newstring = new _String(element.value);
-	cout << "test " << newstring->getValue() << endl;
-	//newstring.value = str;
-	//newstring.stringLength = element.stringLength;
-	return *newstring;
+_String _String::operator = (const _String &element) {
+	cout << "FILE: _String. operator =" << endl;////////////////////////
+	this->setValue(element.value);
+	return *this;
 }
 
 //возвращает новый объект _String, полученный в результате конкатенации исходных
-_String _String::operator + (const _String &right) { 
-	char *str = new char[stringLength + right.stringLength + 1];
-	int i = 0, j = 0;
-	while (value[i] != 0) { //копируем первую часть
-		str[i] = value[i];
-		i++;
-	}
-	while (right.value[j] != 0) { //копируем вторую часть
-		str[i] = right.value[j];
-		i++;
-		j++;
-	}
-	str[i] = 0;
-	_String newstring;
-	newstring.value = str;
-	newstring.stringLength = stringLength + right.stringLength;
-	return newstring;
+_String _String::operator + (const _String &right) {
+	cout << "FILE: _String. operator +" << endl;////////////////////////
+	this->append(right.value);
+	return *this;
 }
 
 //первое вхождение подстроки. вернет -1 если не найдено
@@ -475,6 +459,7 @@ _String _String::copy(int position, int length) {
 	return newstring;
 }
 char _String::operator [] (int index) { //возвращает символ с индексом index
+	cout << "FILE: _String. operator []" << endl;////////////////////////
 	return value[index];
 }
 int _String::parseInt(int &error) { //конвертация в int. error вернет индекс первого символа, который не относится к числу. иначе -1
@@ -552,5 +537,6 @@ bool _String::isEqual(const char *str) { //сравнение с констнтной строкой на оди
 	return true;
 }
 const char* _String::getValue() { //возвращает значение строку
+	cout << "FILE: _String. getvalue()" << endl;////////////////////////
 	return value;
 }

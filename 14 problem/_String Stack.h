@@ -10,8 +10,6 @@ public:
 	ListElement *prev = NULL; //для метода clear
 };
 
-
-
 class Stack{
 private:
 	ListElement stackobj;

@@ -2,27 +2,21 @@
 
 //добавляет новый элемент в стек
 void Stack::push(_String n) {
-	cout<<"2 " << n.getValue()<<" constructor " << endl;
+	cout<<"FILE: _String Stack. push(_String n)" << endl;/////////////////////////
 	ListElement *current = &stackobj;
 	while (current->next != NULL) {
 		current = current->next;
 	}
 	ListElement *newElement = new ListElement;
 	current->next = newElement;
-	
-	cout<<"2.1 " << newElement->value.getValue()<< endl;
-	
 	newElement->value = n;
-	
-	cout<<"2.1 " << newElement->value.getValue()<< endl;
-	
 	newElement->prev = current;
 	_String a = newElement->value;
-	cout<<"2 " << a.getValue()<<"dobavleno" << endl;
 }
 
-//удаляет последний элемент стека и возвращает его
+//удаляет последний элемент стека и возвращает его. Пустой стек напечатает EMPTY STACK
 _String Stack::pop() {
+	cout << "FILE: _String Stack. pop()" << endl;/////////////////////////////
 	ListElement *current = &stackobj, *prev = NULL;
 	while (current->next != NULL) {
 		prev = current;
@@ -39,6 +33,7 @@ _String Stack::pop() {
 
 //возвращает последний элемент стека
 _String Stack::back() {
+	cout << "FILE: _String Stack. back()" << endl;////////////////////////
 	ListElement *current = &stackobj;
 	while (current->next != NULL) {
 	current = current->next;
@@ -48,6 +43,7 @@ _String Stack::back() {
 	
 //возвращает размер стека
 int Stack::size() {
+	cout << "FILE: _String Stack. size()" << endl;////////////////////////
 	int size = 0;
 	ListElement *current = &stackobj;
 	while (current->next != NULL) {
@@ -59,6 +55,7 @@ int Stack::size() {
 
 //очищает стек
 void Stack::clear() {
+	cout << "FILE: _String Stack. clear()" << endl;////////////////////////
 	ListElement *current = &stackobj, *prev = NULL;
 	while (current->next != NULL) {
 		prev = current;
@@ -70,11 +67,12 @@ void Stack::clear() {
 		current->next = NULL;
 		prev = current->prev;
 	}
-	cout << "Stack was cleared" << endl;
+	cout << "Stack was cleared" << endl;/////////////////////
 }
 
 //выводит элементы через пробел. если пустой, то выводит EMPTY STACK
 void Stack::showList() {
+	cout << "FILE: _String Stack. showlist()" << endl;////////////////////////
 	ListElement *current = &stackobj;
 	bool empty = true; //проверка на пустоту
 	while (current->next != NULL) {
@@ -82,6 +80,5 @@ void Stack::showList() {
 		cout << current->value.getValue() << ' ';
 		empty = false;
 	}
-	if (empty) cout << "EMPTY STACK";
-	cout << endl;
+	if (empty) cout << "EMPTY STACK" << endl;
 }

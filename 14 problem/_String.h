@@ -15,11 +15,14 @@ using namespace std;
 		//конструктор по умолчанию
 		_String();
 		
-		//из массива char
+		//из динамического массива char
 		_String(char *val);
 		
 		//из константной строки
 		_String(const char *val);
+
+		//конструктор из символа char
+		_String(char symbol);
 
 		//деструктор
 		~_String();
